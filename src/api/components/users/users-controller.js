@@ -10,7 +10,12 @@ const { errorResponder, errorTypes } = require('../../../core/errors');
  */
 async function getUsers(request, response, next) {
   try {
-    const users = await usersService.getUsers();
+    //pagination pakai ?page_number="angka"&page_limit="angka"
+    const page = request.query.page_number * 1 || 1;
+    const limit = request.query.page_limit * 1 || 2;
+    const skip = (page - 1) * limit;
+
+    const users = await usersService.getUsers({ skip, limit });
     return response.status(200).json(users);
   } catch (error) {
     return next(error);
@@ -188,6 +193,14 @@ async function changePassword(request, response, next) {
     return next(error);
   }
 }
+
+// // PAGINATION kayaknya
+// async function pagination(request) {
+//   const page = request.query.page_number * 1 || 1;
+//   const limit = request.query.page_limit * 1 || 5;
+//   const skip = (page - 1) * limit;
+//   query = query.skip(skip).limit(limit);
+// }
 
 module.exports = {
   getUsers,
