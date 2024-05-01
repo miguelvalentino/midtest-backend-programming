@@ -10,13 +10,23 @@ const { errorResponder, errorTypes } = require('../../../core/errors');
  */
 async function getUsers(request, response, next) {
   try {
-    //pagination pakai ?page_number="angka"&page_limit="angka"
-    const page = request.query.page_number * 1 || 1;
-    const limit = request.query.page_limit * 1 || 2;
+    //pagination menggunakan http://localhost:5000/api/users?page_number=1&page_size=1
+    const page = request.query.page_number || 1;
+    const limit = request.query.page_size || 3;
     const skip = (page - 1) * limit;
 
-    const users = await usersService.getUsers({ skip, limit });
-    return response.status(200).json(users);
+    const users = await usersService.getUsers({
+      skip,
+      limit,
+    });
+
+    const responseData = {
+      page_number: page,
+      page_size: limit,
+      count: users.length,
+      data: users,
+    };
+    return response.status(200).json(responseData);
   } catch (error) {
     return next(error);
   }

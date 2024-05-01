@@ -1,6 +1,7 @@
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const express = require('express');
+const ratelimit = require('express-rate-limit'); // buat pembatas login rate limit pakai express-rate-limit
 const passport = require('passport');
 const pinoHTTP = require('pino-http');
 
@@ -10,6 +11,16 @@ const routes = require('../api');
 const { errorResponder, errorHandler, errorTypes } = require('./errors');
 
 const app = express();
+
+// login rate limit
+const loginlimit = ratelimit({
+  max: 5, // batasnya 5 kali login
+  windowMs: 30 * 60 * 1000, //30 menit
+  message:
+    'Melebihi batas maksimum login attempt, silahkan coba beberapa saat lagi (30 menit)',
+});
+//tempat dipakai login rate limit nya
+app.use('/api/authentication/login', loginlimit);
 
 // Useful if behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc).
 // It shows the real origin IP in the Heroku or Cloudwatch logs.

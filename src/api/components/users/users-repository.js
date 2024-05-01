@@ -2,10 +2,13 @@ const { User } = require('../../../models');
 
 /**
  * Get a list of users
+ * Bagian Pagination buat skip dan limit
+ * @param {number} skip
+ * @param {number} limit
  * @returns {Promise}
  */
-async function getUsers() {
-  return User.find({});
+async function getUsers({ skip, limit }) {
+  return User.find({}).skip(skip).limit(limit);
 }
 
 /**
