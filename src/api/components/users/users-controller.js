@@ -10,23 +10,28 @@ const { errorResponder, errorTypes } = require('../../../core/errors');
  */
 async function getUsers(request, response, next) {
   try {
-    //pagination menggunakan http://localhost:5000/api/users?page_number=1&page_size=1
+    //pagination dan sort menggunakan
+    //http://localhost:5000/api/users?page_number=1&page_size=1&search=email:test&sort=email:desc
     const page = request.query.page_number || 1;
     const limit = request.query.page_size || 3;
     const skip = (page - 1) * limit;
+    const search = request.query.search || '';
+    const sort = request.query.sort || '';
 
     const users = await usersService.getUsers({
       skip,
       limit,
+      search,
+      sort,
     });
 
-    const responseData = {
+    const responsedata = {
       page_number: page,
       page_size: limit,
       count: users.length,
       data: users,
     };
-    return response.status(200).json(responseData);
+    return response.status(200).json(responsedata);
   } catch (error) {
     return next(error);
   }
@@ -212,6 +217,97 @@ async function changePassword(request, response, next) {
 //   query = query.skip(skip).limit(limit);
 // }
 
+//createmarket buat bikin data produk baru
+async function createmarket(request, response, next) {
+  try {
+    const namaproduk = request.body.namaproduk;
+    const deskripsi = request.body.deskripsi;
+    const harga = request.body.harga;
+    const total = request.body.total;
+
+    const success = await usersService.createmarket(
+      namaproduk,
+      deskripsi,
+      harga,
+      total
+    );
+    if (!success) {
+      throw errorResponder(
+        errorTypes.UNPROCESSABLE_ENTITY,
+        'gagal membuat produk'
+      );
+    }
+
+    return response.status(200).json({ namaproduk, deskripsi, harga, total });
+  } catch (error) {
+    return next(error);
+  }
+}
+
+//getmarket untuk melihat produk yang ada
+async function getmarket(request, response, next) {
+  try {
+    const namaproduk = await usersService.getmarket(request.params.idproduk);
+
+    if (!namaproduk) {
+      throw errorResponder(
+        errorTypes.UNPROCESSABLE_ENTITY,
+        'produk tidak diketahui'
+      );
+    }
+
+    return response.status(200).json(namaproduk);
+  } catch (error) {
+    return next(error);
+  }
+}
+
+//updatemarket untuk melakukan perubahan terhadap produk yang telah ada
+async function updatemarket(request, response, next) {
+  try {
+    const idproduk = request.params.idproduk;
+    const namaproduk = request.body.namaproduk;
+    const deskripsi = request.body.deskripsi;
+    const total = request.body.total;
+
+    const success = await usersService.updateUser(
+      idproduk,
+      namaproduk,
+      deskripsi,
+      total
+    );
+    if (!success) {
+      throw errorResponder(
+        errorTypes.UNPROCESSABLE_ENTITY,
+        'Failed to update user'
+      );
+    }
+
+    return response.status(200).json({ idproduk });
+  } catch (error) {
+    return next(error);
+  }
+}
+
+//deletemarket buat delete produk yang dipilih
+async function deletemarket(request, response, next) {
+  try {
+    const idproduk = request.params.idproduk;
+
+    const success = await usersService.deletemarket(idproduk);
+    if (!success) {
+      throw errorResponder(
+        errorTypes.UNPROCESSABLE_ENTITY,
+        'gagal menghapus produk'
+      );
+    }
+
+    return response.status(200).json({ idproduk });
+  } catch (error) {
+    return next(error);
+  }
+}
+
 module.exports = {
   getUsers,
   getUser,
@@ -219,4 +315,8 @@ module.exports = {
   updateUser,
   deleteUser,
   changePassword,
+  createmarket,
+  getmarket,
+  updatemarket,
+  deletemarket,
 };

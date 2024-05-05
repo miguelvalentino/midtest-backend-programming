@@ -161,6 +161,70 @@ async function changePassword(userId, password) {
   return true;
 }
 
+//createmarket membuat produk baru
+async function createmarket(namaproduk, deskripsi, harga, total) {
+  try {
+    await usersRepository.createmarket(namaproduk, deskripsi, harga, total);
+  } catch (err) {
+    return null;
+  }
+
+  return true;
+}
+
+//getmarket
+async function getmarket(idproduk) {
+  const produk = await usersRepository.getmarket(idproduk);
+
+  // produk not found
+  if (!produk) {
+    return null;
+  }
+
+  return {
+    idproduk: produk.id,
+    name: produk.nama,
+    deskripsi: produk.deskripsi,
+    total: produk.total,
+  };
+}
+
+//updatemarket
+async function updatemarket(idproduk, namaproduk, deskripsi, total) {
+  const produk = await usersRepository.getmarket(idproduk);
+
+  // User not found
+  if (!produk) {
+    return null;
+  }
+
+  try {
+    await usersRepository.updatemarket(idproduk, namaproduk, deskripsi, total);
+  } catch (err) {
+    return null;
+  }
+
+  return true;
+}
+
+//deletemarket
+async function deletemarket(idmarket) {
+  const produk = await usersRepository.getmarket(idmarket);
+
+  // User not found
+  if (!produk) {
+    return null;
+  }
+
+  try {
+    await usersRepository.deletemarket(idmarket);
+  } catch (err) {
+    return null;
+  }
+
+  return true;
+}
+
 module.exports = {
   getUsers,
   getUser,
@@ -170,4 +234,8 @@ module.exports = {
   emailIsRegistered,
   checkPassword,
   changePassword,
+  createmarket,
+  getmarket,
+  updatemarket,
+  deletemarket,
 };

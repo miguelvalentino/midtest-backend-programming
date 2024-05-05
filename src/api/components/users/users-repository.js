@@ -84,6 +84,43 @@ async function changePassword(id, password) {
   return User.updateOne({ _id: id }, { $set: { password } });
 }
 
+//createmarket
+async function createmarket(namaproduk, deskripsi, harga, total) {
+  return produk.create({
+    namaproduk,
+    deskripsi,
+    harga,
+    total,
+  });
+}
+
+//getmarket
+async function getmarket(idproduk) {
+  return produk.findById(idproduk);
+}
+
+//updatemarket
+async function updatemarket(idproduk, namaproduk, deskripsi, harga, total) {
+  return produk.updateOne(
+    {
+      _idproduk: idproduk,
+    },
+    {
+      $set: {
+        namaproduk,
+        deskripsi,
+        harga,
+        total,
+      },
+    }
+  );
+}
+
+//deletemarket
+async function deletemarket(idproduk) {
+  return produk.deleteOne({ _idproduk: idproduk });
+}
+
 module.exports = {
   getUsers,
   getUser,
@@ -92,4 +129,8 @@ module.exports = {
   deleteUser,
   getUserByEmail,
   changePassword,
+  createmarket,
+  getmarket,
+  updatemarket,
+  deletemarket,
 };

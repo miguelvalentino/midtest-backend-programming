@@ -48,4 +48,44 @@ module.exports = {
       password_confirm: joi.string().required().label('Password confirmation'),
     },
   },
+
+  //membuat produk marketplace
+  createmarket: {
+    body: {
+      namaproduk: joi
+        .string()
+        .min(1)
+        .max(100)
+        .required()
+        .label('Nama Produk :'),
+      deskripsi: joi
+        .string()
+        .min(1)
+        .max(200)
+        .required()
+        .label('Deskripsi Produk :'),
+      harga: joi.string().required().label('Harga Produk :'),
+      total: joi.string().required().label('Total Produk yang ada :'),
+    },
+  },
+
+  //mengupdate produk yang ada
+  updatemarket: {
+    body: {
+      namaproduk: joi
+        .string()
+        .min(1)
+        .max(100)
+        .required()
+        .label('Nama Produk :'),
+      deskripsi: joi
+        .string()
+        .min(1)
+        .max(200)
+        .required()
+        .label('Deskripsi Produk :'),
+      harga: joi.string().required().label('Harga Produk :'),
+      total: joi.string().required().label('Total Produk yang ada :'),
+    },
+  },
 };

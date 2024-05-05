@@ -43,3 +43,33 @@ module.exports = (app) => {
     usersControllers.changePassword
   );
 };
+
+module.exports = (app) => {
+  app.use('/produk', route);
+
+  // membuat produk
+  route.post(
+    '/',
+    authenticationMiddleware,
+    celebrate(usersValidator.createmarket),
+    usersControllers.createmarket
+  );
+
+  // mendapatkan detail produk
+  route.get('/:idproduk', authenticationMiddleware, usersControllers.getmarket);
+
+  // Update produk
+  route.put(
+    '/:idproduk',
+    authenticationMiddleware,
+    celebrate(usersValidator.updatemarket),
+    usersControllers.updatemarket
+  );
+
+  // Delete produk
+  route.delete(
+    '/:idproduk',
+    authenticationMiddleware,
+    usersControllers.deletemarket
+  );
+};
