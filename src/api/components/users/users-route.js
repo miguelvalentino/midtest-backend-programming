@@ -6,6 +6,7 @@ const usersControllers = require('./users-controller');
 const usersValidator = require('./users-validator');
 
 const route = express.Router();
+const routeproduk = express.Router();
 
 module.exports = (app) => {
   app.use('/users', route);
@@ -42,24 +43,26 @@ module.exports = (app) => {
     celebrate(usersValidator.changePassword),
     usersControllers.changePassword
   );
-};
 
-module.exports = (app) => {
-  app.use('/produk', route);
+  app.use('/produk', routeproduk);
 
   // membuat produk
-  route.post(
+  routeproduk.post(
     '/',
     authenticationMiddleware,
     celebrate(usersValidator.createmarket),
     usersControllers.createmarket
   );
 
-  // mendapatkan detail produk
-  route.get('/:idproduk', authenticationMiddleware, usersControllers.getmarket);
+  // mendapatkan detail data produk
+  routeproduk.get(
+    '/:idproduk',
+    authenticationMiddleware,
+    usersControllers.getmarket
+  );
 
   // Update produk
-  route.put(
+  routeproduk.put(
     '/:idproduk',
     authenticationMiddleware,
     celebrate(usersValidator.updatemarket),
@@ -67,7 +70,7 @@ module.exports = (app) => {
   );
 
   // Delete produk
-  route.delete(
+  routeproduk.delete(
     '/:idproduk',
     authenticationMiddleware,
     usersControllers.deletemarket

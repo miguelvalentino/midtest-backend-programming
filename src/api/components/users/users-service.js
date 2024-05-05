@@ -196,6 +196,7 @@ async function getmarket(idproduk) {
     idproduk: produk.idproduk,
     namaproduk: produk.namaproduk,
     deskripsi: produk.deskripsi,
+    harga: produk.harga,
     total: produk.total,
   };
 }
