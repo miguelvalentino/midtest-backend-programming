@@ -1,7 +1,7 @@
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const express = require('express');
-const loginlimit = require('express-rate-limit'); // buat pembatas login rate limit pakai express-rate-limit
+const loginlimit = require('express-rate-limit'); // buat pembatas login rate limit pakai paket express-rate-limit
 const passport = require('passport');
 const pinoHTTP = require('pino-http');
 
@@ -12,10 +12,10 @@ const { errorResponder, errorHandler, errorTypes } = require('./errors');
 
 const app = express();
 
-// login rate limit
+// login memakai express rate limit
 const loginlimiting = loginlimit({
-  max: 5, // batasnya 5 kali login
-  windowMs: 30 * 60 * 1000, //30 menit
+  max: 5, // batasnya 5 kali login gagal
+  windowMs: 30 * 60 * 1000, //akan mendapatkan 30menit cooldown untuk membatasi user login
   message:
     'Melebihi batas maksimum login attempt, silahkan coba beberapa saat lagi (30 menit)',
 });

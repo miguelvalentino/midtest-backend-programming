@@ -25,13 +25,13 @@ async function getUsers(request, response, next) {
       sort,
     });
 
-    const responsedata = {
+    const hasildata = {
       page_number: page,
       page_size: limit,
       count: users.length,
       data: users,
     };
-    return response.status(200).json(responsedata);
+    return response.status(200).json(hasildata);
   } catch (error) {
     return next(error);
   }
