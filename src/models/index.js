@@ -11,26 +11,10 @@ const usersSchema = new mongoose.Schema({
 });
 
 const produkSchema = new mongoose.Schema({
-  namaproduk: {
-    type: String,
-    required: true,
-    maxlength: 100,
-  },
-  deskripsi: {
-    type: String,
-    required: true,
-    maxlength: 200,
-  },
-  harga: {
-    type: String,
-    required: true,
-    min: 0,
-  },
-  total: {
-    type: String,
-    required: true,
-    min: 0,
-  },
+  namaproduk: String,
+  deskripsi: String,
+  harga: Number,
+  total: Number,
 });
 
 mongoose.connect(`${config.database.connection}/${config.database.name}`, {
@@ -44,10 +28,10 @@ db.once('open', () => {
 
 usersSchema.plugin(mongoosePaginate);
 const User = mongoose.model('users', mongoose.Schema(usersSchema));
-const namaproduk = mongoose.model('produk', mongoose.Schema(produkSchema));
+const produk = mongoose.model('namaproduk', mongoose.Schema(produkSchema));
 
 module.exports = {
   mongoose,
   User,
-  namaproduk,
+  produk,
 };

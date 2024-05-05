@@ -7,8 +7,8 @@ const usersSchema = {
 const produkSchema = {
   namaproduk: String,
   deskripsi: String,
-  Harga: String,
-  Total: String,
+  Harga: Number,
+  Total: Number,
 };
 module.exports = produkSchema;
 module.exports = usersSchema;

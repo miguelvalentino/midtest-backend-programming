@@ -1,4 +1,5 @@
 const { User } = require('../../../models');
+const { produk } = require('../../../models');
 
 /**
  * Get a list of users
@@ -84,7 +85,14 @@ async function changePassword(id, password) {
   return User.updateOne({ _id: id }, { $set: { password } });
 }
 
-//createmarket
+/**
+ * createmarket membuat produk baru
+ * @param {string} namaproduk - Namaproduk
+ * @param {string} deskripsi - deskripsi produk
+ * @param {number} harga - Harga produk
+ * @param {number} total - total produk yang ada
+ * @returns {Promise}
+ */
 async function createmarket(namaproduk, deskripsi, harga, total) {
   return produk.create({
     namaproduk,
@@ -94,16 +102,28 @@ async function createmarket(namaproduk, deskripsi, harga, total) {
   });
 }
 
-//getmarket
+/**
+ * getmarket menampilkan data produk
+ * @param {string} idproduk- produk id
+ * @returns {Promise}
+ */
 async function getmarket(idproduk) {
   return produk.findById(idproduk);
 }
 
-//updatemarket
+/**
+ * updatemarket mengubah data produk
+ * @param {string} idproduk - id produk
+ * @param {string} namaproduk - namaproduk
+ * @param {string} deskripsi - deskripsi produk
+ * @param {number} harga - harga
+ * @param {number} total - total barang
+ * @returns {Promise}
+ */
 async function updatemarket(idproduk, namaproduk, deskripsi, harga, total) {
   return produk.updateOne(
     {
-      _idproduk: idproduk,
+      _id: idproduk,
     },
     {
       $set: {
@@ -116,9 +136,13 @@ async function updatemarket(idproduk, namaproduk, deskripsi, harga, total) {
   );
 }
 
-//deletemarket
+/**
+ * deletemarket untuk menghapus produk
+ * @param {string} idproduk - id produk
+ * @returns {Promise}
+ */
 async function deletemarket(idproduk) {
-  return produk.deleteOne({ _idproduk: idproduk });
+  return produk.deleteOne({ _id: idproduk });
 }
 
 module.exports = {

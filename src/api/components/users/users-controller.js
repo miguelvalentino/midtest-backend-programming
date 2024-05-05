@@ -217,7 +217,13 @@ async function changePassword(request, response, next) {
 //   query = query.skip(skip).limit(limit);
 // }
 
-//createmarket buat bikin data produk baru
+/**
+ * createmarket untuk membuat produk
+ * @param {object} request - Express request object
+ * @param {object} response - Express response object
+ * @param {object} next - Express route middlewares
+ * @returns {object} Response object or pass an error to the next route
+ */
 async function createmarket(request, response, next) {
   try {
     const namaproduk = request.body.namaproduk;
@@ -244,7 +250,13 @@ async function createmarket(request, response, next) {
   }
 }
 
-//getmarket untuk melihat produk yang ada
+/**
+ * getmarket untuk melihat produk yang ada
+ * @param {object} request - Express request object
+ * @param {object} response - Express response object
+ * @param {object} next - Express route middlewares
+ * @returns {object} Response object or pass an error to the next route
+ */
 async function getmarket(request, response, next) {
   try {
     const namaproduk = await usersService.getmarket(request.params.idproduk);
@@ -262,24 +274,32 @@ async function getmarket(request, response, next) {
   }
 }
 
-//updatemarket untuk melakukan perubahan terhadap produk yang telah ada
+/**
+ * updatemarket untuk mengedit produk yang telah ada
+ * @param {object} request - Express request object
+ * @param {object} response - Express response object
+ * @param {object} next - Express route middlewares
+ * @returns {object} Response object or pass an error to the next route
+ */
 async function updatemarket(request, response, next) {
   try {
     const idproduk = request.params.idproduk;
     const namaproduk = request.body.namaproduk;
     const deskripsi = request.body.deskripsi;
+    const harga = request.body.harga;
     const total = request.body.total;
 
-    const success = await usersService.updateUser(
+    const success = await usersService.updatemarket(
       idproduk,
       namaproduk,
       deskripsi,
+      harga,
       total
     );
     if (!success) {
       throw errorResponder(
         errorTypes.UNPROCESSABLE_ENTITY,
-        'Failed to update user'
+        'gagal mengubah data produk'
       );
     }
 
@@ -289,11 +309,16 @@ async function updatemarket(request, response, next) {
   }
 }
 
-//deletemarket buat delete produk yang dipilih
+/**
+ * deletemarket untuk menghapus produk yang dipilih
+ * @param {object} request - Express request object
+ * @param {object} response - Express response object
+ * @param {object} next - Express route middlewares
+ * @returns {object} Response object or pass an error to the next route
+ */
 async function deletemarket(request, response, next) {
   try {
     const idproduk = request.params.idproduk;
-
     const success = await usersService.deletemarket(idproduk);
     if (!success) {
       throw errorResponder(

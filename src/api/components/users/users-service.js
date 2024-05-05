@@ -161,7 +161,14 @@ async function changePassword(userId, password) {
   return true;
 }
 
-//createmarket membuat produk baru
+/**
+ * createmarket untuk membuat produk baru
+ * @param {string} namaproduk - nama produk
+ * @param {string} deskripsi - deskripsi produk
+ * @param {number} harga - harga produk
+ * @param {number} total - total produk
+ * @returns {boolean}
+ */
 async function createmarket(namaproduk, deskripsi, harga, total) {
   try {
     await usersRepository.createmarket(namaproduk, deskripsi, harga, total);
@@ -172,7 +179,11 @@ async function createmarket(namaproduk, deskripsi, harga, total) {
   return true;
 }
 
-//getmarket
+/**
+ * getmarket menampilkan data produk
+ * @param {string} idproduk - produk id
+ * @returns {Promise}
+ */
 async function getmarket(idproduk) {
   const produk = await usersRepository.getmarket(idproduk);
 
@@ -182,24 +193,38 @@ async function getmarket(idproduk) {
   }
 
   return {
-    idproduk: produk.id,
-    name: produk.nama,
+    idproduk: produk.idproduk,
+    namaproduk: produk.namaproduk,
     deskripsi: produk.deskripsi,
     total: produk.total,
   };
 }
 
-//updatemarket
-async function updatemarket(idproduk, namaproduk, deskripsi, total) {
+/**
+ * updatemarket mengubah data produk
+ * @param {string} idproduk - id produk
+ * @param {string} namaproduk - namaproduk
+ * @param {string} deskripsi - deskripsi produk
+ * @param {number} harga - harga
+ * @param {number} total - total barang
+ * @returns {Promise}
+ */
+async function updatemarket(idproduk, namaproduk, deskripsi, harga, total) {
   const produk = await usersRepository.getmarket(idproduk);
 
-  // User not found
+  // produk not found
   if (!produk) {
     return null;
   }
 
   try {
-    await usersRepository.updatemarket(idproduk, namaproduk, deskripsi, total);
+    await usersRepository.updatemarket(
+      idproduk,
+      namaproduk,
+      deskripsi,
+      harga,
+      total
+    );
   } catch (err) {
     return null;
   }
@@ -207,17 +232,21 @@ async function updatemarket(idproduk, namaproduk, deskripsi, total) {
   return true;
 }
 
-//deletemarket
-async function deletemarket(idmarket) {
-  const produk = await usersRepository.getmarket(idmarket);
+/**
+ * deletemarket untuk menghapus produk
+ * @param {string} idproduk - id produk
+ * @returns {Promise}
+ */
+async function deletemarket(idproduk) {
+  const produk = await usersRepository.getmarket(idproduk);
 
-  // User not found
+  // produk not found
   if (!produk) {
     return null;
   }
 
   try {
-    await usersRepository.deletemarket(idmarket);
+    await usersRepository.deletemarket(idproduk);
   } catch (err) {
     return null;
   }

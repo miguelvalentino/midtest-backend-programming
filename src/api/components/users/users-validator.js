@@ -64,8 +64,8 @@ module.exports = {
         .max(200)
         .required()
         .label('Deskripsi Produk :'),
-      harga: joi.string().required().label('Harga Produk :'),
-      total: joi.string().required().label('Total Produk yang ada :'),
+      harga: joi.number().required().label('Harga Produk :'),
+      total: joi.number().required().label('Total Produk yang ada :'),
     },
   },
 
@@ -84,8 +84,8 @@ module.exports = {
         .max(200)
         .required()
         .label('Deskripsi Produk :'),
-      harga: joi.string().required().label('Harga Produk :'),
-      total: joi.string().required().label('Total Produk yang ada :'),
+      harga: joi.number().required().label('Harga Produk :'),
+      total: joi.number().required().label('Total Produk yang ada :'),
     },
   },
 };
